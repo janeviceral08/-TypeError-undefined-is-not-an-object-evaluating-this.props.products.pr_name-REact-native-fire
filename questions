@@ -1,0 +1,810 @@
+
+
+Please Someone help me? I am developing a mobile application using react native and firestore as a database. please help me find what is wrong with my code. this error "TypeError: undefined is not an object (evaluating 'this.props.products.pr_name')" show up when I click the touchable opacity. it works perfectly using tabNav but when I change into the drawer I got this issue. here is my code. Please help me with this
+
+secondSideMenu.js
+
+import React, { Component } from 'react';
+import { BackHandler, StyleSheet } from 'react-native';
+import { Root } from 'native-base';
+import { Router, Stack, Scene, Drawer } from 'react-native-router-flux';
+import Home from './Home';
+import SideMenu from './Sidemenu';
+import Addproduct from './Addproduct';
+import AcceptedOrder from './Accepted';
+import Incoming from './Incoming';
+import Completed from './Completed';
+import ListProduct from './Listproduct';
+import OrderDetails from './OrderDetails';
+import GrayScreen from './GrayScreen';
+import SettingScreen from './SettingScreen';
+import Addimage from './Addimage';
+
+
+export default class secondSideMenu extends Component {
+
+  render() {
+    return (
+      <Router>
+        <Stack key="root">
+
+
+
+          <Drawer
+            hideNavBar
+            initial
+            key="drawerMenu"
+            contentComponent={SideMenu}
+            drawerWidth={250}
+            drawerPosition="left"
+            ref={(ref) => this._drawer = ref}
+            headerLayoutPreset={'center'}
+            type="overlay"
+            swipeEnabled
+            openDrawerOffset={0.3}
+            tapToClose={true}
+        onCloseStart={() => Keyboard.dismiss()}
+        openDrawerOffset={0.3}
+            tintColor="#000"
+            navigationBarStyle={styles.navBar}
+            titleStyle={styles.navBarTitle}>
+            <Scene key="home" title="Orders" component={Home} />
+            <Scene key="incoming" title="Orders" component={Incoming} />
+            <Scene key="accepted" title="Accepted Order" component={AcceptedOrder} />
+            <Scene key="completed" title="Completed Order" component={Completed} />
+            <Scene key="orderdetails" component={OrderDetails} hideNavBar/>
+            <Scene key="addproduct" title="Add Product" component={Addproduct} />
+            <Scene key="listproduct" title="List of Product" component={ListProduct} />
+            <Scene key="gray" title="Edit Product" component={GrayScreen} />
+            <Scene key="setting" title="Store Setting" component={SettingScreen} />
+            <Scene key="addimage" title="add image" component={Addimage} />
+
+
+          </Drawer>
+        </Stack>
+      </Router>
+    );
+  }
+
+  close() {
+    this._drawer.close();
+  }
+
+  open() {
+    this._drawer.open();
+  }
+}
+const styles = StyleSheet.create({
+  navBar: {
+    backgroundColor: "#ffc75c",
+  },
+  navBarTitle: {
+    color: "#FFFFFF",
+    alignSelf: "center"
+  },
+});
+
+
+
+
+
+
+
+
+
+
+Sidemenu.js
+
+
+import React, { Component } from 'react';
+import { Text, View, StyleSheet, Button,FlatList, UIManager, Image, ScrollView } from 'react-native';
+import {  ListItem, Body, Left, Right, Icon, Item, Grid, Col } from 'native-base';
+
+import { Actions } from 'react-native-router-flux';
+export default class SideMenu extends Component {
+  constructor(props) {
+    super(props);
+    UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+          <View style={styles.header}>
+
+           <View style={styles.headerContent}>
+
+               <Image style={styles.avatar}
+               source={{uri:'https://img.icons8.com/color/1600/circled-user-male-skin-type-1-2.png'}}/>
+
+             <View style={{ alignItems: 'center', justifyContent: 'center'}}>
+                    <Text style={styles.name}>Name Of Store</Text>
+                   <Text style={styles.userInfo}>Let's increase your sales today! Cater all the orders</Text>
+            </View>
+         </View>
+          </View>
+          <ScrollView>
+        <ListItem
+                icon
+                key="home"
+                button={true}
+                onPress={() => Actions.incoming()}
+              >
+                <Body>
+                  <Text>Incoming Orders</Text>
+                </Body>
+                <Right>
+                  <Icon name="ios-arrow-forward" />
+                </Right>
+           </ListItem>
+
+           <ListItem
+                icon
+                key="accepted"
+                button={true}
+                onPress={() => Actions.accepted()}
+              >
+                <Body>
+                  <Text>Accepted Orders</Text>
+                </Body>
+                <Right>
+                  <Icon name="ios-arrow-forward" />
+                </Right>
+           </ListItem>
+
+           <ListItem
+                icon
+                key="completed"
+                button={true}
+                onPress={() => Actions.completed()}
+              >
+                <Body>
+                  <Text>Completed Orders</Text>
+                </Body>
+                <Right>
+                  <Icon name="ios-arrow-forward" />
+                </Right>
+           </ListItem>
+
+           <ListItem
+                icon
+                key="addproduct"
+                button={true}
+                onPress={() => Actions.addproduct()}
+              >
+                <Body>
+                  <Text>Add Product</Text>
+                </Body>
+                <Right>
+                  <Icon name="ios-arrow-forward" />
+                </Right>
+           </ListItem>
+
+           <ListItem
+                icon
+                key="listproduct"
+                button={true}
+                onPress={() => Actions.listproduct()}
+              >
+                <Body>
+                  <Text>Product</Text>
+                </Body>
+                <Right>
+                  <Icon name="ios-arrow-forward" />
+                </Right>
+           </ListItem>
+
+           <ListItem
+                icon
+                key="storesetting"
+                button={true}
+                onPress={() => Actions.setting()}
+              >
+                <Body>
+                  <Text>Store Settings</Text>
+                </Body>
+                <Right>
+                  <Icon name="ios-arrow-forward" />
+                </Right>
+           </ListItem>
+
+
+
+           <ListItem
+                icon
+                key="sales"
+                button={true}
+                onPress={() => Actions.login()}
+              >
+                <Body>
+                  <Text>Sales Today</Text>
+                </Body>
+                <Right>
+                  <Icon name="ios-arrow-forward" />
+                </Right>
+           </ListItem>
+
+           <ListItem
+                icon
+                key="image"
+                button={true}
+                onPress={() => Actions.addimage()}
+              >
+                <Body>
+                  <Text>Add product Image</Text>
+                </Body>
+                <Right>
+                  <Icon name="ios-arrow-forward" />
+                </Right>
+           </ListItem>
+
+           <ListItem
+                icon
+                key="logout"
+                button={true}
+                onPress={() => Actions.login()}
+              >
+                <Body>
+                  <Text>Logout</Text>
+                </Body>
+                <Right>
+                  <Icon name="ios-arrow-forward" />
+                </Right>
+           </ListItem>
+
+           </ScrollView>
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'stretch',
+    backgroundColor: '#F5FCFF',
+
+    paddingRight: 20,
+    paddingLeft: 20,
+    paddingBottom: 10,
+  },
+
+  headerContent:{
+    padding:30,
+    alignItems: 'center',
+  },
+  avatar: {
+    width: 130,
+    height: 130,
+    borderRadius: 63,
+    borderWidth: 4,
+    borderColor: "white",
+    marginBottom:10,
+  }, 
+
+  name:{
+    fontSize:22,
+    color:"#003f5c",
+    fontWeight:'600',
+  },
+  userInfo:{
+    fontSize:13,
+    color:"#ff4d4d",
+    fontWeight:'600',
+
+  },
+});
+
+
+
+
+
+
+
+
+
+Listproduct.js
+
+
+import React, { Component } from 'react';
+import {
+    StyleSheet, View, Alert, TextInput, Button, Text, Platform, TouchableOpacity, FlatList, ActivityIndicator, SafeAreaView, Image
+} from 'react-native';
+import { Actions } from 'react-native-router-flux'; 
+import firebase from './firebase';
+
+
+
+export default class ListProduct extends Component{
+
+
+  constructor() {
+    super();
+    this.ref = firebase.firestore().collection('products');
+    this.unsubscribe = null;
+    this.state = {
+      isLoading: true,
+      dataSource: []
+    };
+  }
+      componentDidMount() {
+
+        this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+      }
+
+
+      onCollectionUpdate = (querySnapshot) => {
+        const dataSource = [];
+        querySnapshot.forEach((doc) => {
+          const { pr_image,
+            pr_name,
+            pr_id,
+            pr_price,
+            pr_section,
+            pr_store_name,
+            store_id,
+            prod_status,
+            pr_unit, } = doc.data();
+          dataSource.push({
+            key: doc.id,
+            doc, // DocumentSnapshot
+            pr_image,
+            pr_id,
+            pr_name,
+            pr_price,
+            pr_section,
+            pr_store_name,
+            store_id,
+            prod_status,
+            pr_unit,
+          });
+        });
+        this.setState({
+          dataSource,
+          isLoading: false,
+       });
+
+      }
+
+
+      render() {
+        if (this.state.isLoading) {
+          return (
+            <View style={{flex: 1, paddingTop: 20}}>
+              <ActivityIndicator size="large" color="#00ff00" style={{  flex: 1,
+    justifyContent: "center",   flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 10}}/>
+            </View>
+          );
+        }
+
+        return (
+
+
+<View style={styles.container}>
+
+ <FlatList
+
+  data={ this.state.dataSource }
+
+
+  renderItem={({item}) => 
+
+      <TouchableOpacity style={styles.cardContainer}   onPress={() => Actions.gray({products: item})}>
+
+        <Image source = {{ uri: item.pr_image }} style={styles.imageView} />
+        <Text style={{fontWeight: "bold", padding: 5, paddingLeft:10 }}>{item.pr_name}</Text>
+
+        <Text  style={{ padding: 5}}>{item.pr_price}</Text>
+
+      </TouchableOpacity>
+
+    }
+    keyExtractor={item => item.pr_id}
+
+  />
+
+</View>
+
+        );
+      }
+
+  }
+  const styles = StyleSheet.create({
+
+    MainContainer :{
+      flex:1,
+      paddingTop: 30,
+      backgroundColor: '#fff'
+
+    },
+
+    MainContainer_For_Show_StudentList_Activity :{
+
+      flex:1,
+      paddingTop: (Platform.OS == 'ios') ? 20 : 0,
+      marginLeft: 5,
+      marginRight: 5
+
+      },
+
+    TextInputStyleClass: {
+
+    textAlign: 'center',
+    width: '90%',
+    marginBottom: 7,
+    height: 40,
+    borderWidth: 1,
+    borderColor: '#FF5722',
+    borderRadius: 5 ,
+
+    },
+
+    TouchableOpacityStyle: {
+
+      paddingTop:10,
+      paddingBottom:10,
+      borderRadius:5,
+      marginBottom:7,
+      width: '90%',
+      backgroundColor: '#00BCD4'
+
+    },
+
+    TextStyle:{
+      color:'#fff',
+      textAlign:'center',
+    },
+
+    rowViewContainer: {
+      fontSize: 20,
+      paddingRight: 10,
+      paddingTop: 10,
+      paddingBottom: 10,
+    },
+    container: {
+        flex: 1,
+        padding: 2,
+        backgroundColor: '#E5E5E5',
+
+      },
+      cardContainer: {
+        // Play with these
+        // https://facebook.github.io/react-native/docs/view-style-props
+        // https://facebook.github.io/react-native/docs/shadow-props
+        backgroundColor: 'white',
+      margin: 5,
+        borderRadius: 12,
+        shadowColor: 'rgba(107, 87, 140, 0.1)',
+        shadowOpacity: 1,
+        shadowRadius: 16,
+        shadowOffset: {
+          height: 10,
+          width: 0,
+        },
+        flexDirection: 'row',
+        elevation: 8,
+
+        // Ignore these
+        width: '100%',
+        height: 60,
+      },
+      imageView: {
+        margin:5,
+        width: '30%',
+        height: 50 ,
+
+
+    },
+    textView: {
+
+      width:'50%', 
+
+      padding:10,
+      color: '#000'
+
+  }
+
+  });
+  
+  
+  
+  
+  
+  
+  
+  
+  GrayScreen.js
+
+import React, { Component } from 'react';
+import {
+    StyleSheet, View, Alert, TextInput, Button, Text, Platform, TouchableOpacity, ListView, ActivityIndicator, ScrollView, KeyboardAvoidingView
+} from 'react-native';
+import { Actions } from 'react-native-router-flux'; // New code
+import firebase from './firebase';
+
+
+
+
+
+export default class GrayScreen extends Component{
+
+
+  constructor(props) {
+
+    super(props)
+
+    this.state = {
+
+      prod_name: '',
+      pr_image: '',
+      pr_price: '',
+      pr_section: '',
+      pr_id: '',
+      store_id: '',
+      pr_store_name: '',
+      prod_status: '',
+      pr_unit: '',
+
+
+    }
+
+  }
+
+
+  componentDidMount(){
+
+   // Received Student Details Sent From Previous Activity and Set Into State.
+   this.setState({ 
+     pr_name: this.props.products.pr_name,
+     pr_image: this.props.products.pr_image,
+     pr_price: this.props.products.pr_price,
+     pr_section: this.props.products.pr_section,
+     pr_id: this.props.products.pr_id,
+     store_id: this.props.products.store_id,
+     pr_store_name: this.props.products.pr_store_name,
+     prod_status: this.props.products.prod_status,
+     pr_unit: this.props.products.pr_unit,
+   })
+
+  }
+
+ UpdateRecord = () =>{
+
+  const userId = firebase.auth().currentUser.uid;
+  const updateRef = firebase.firestore().collection('products').doc(this.state.pr_id);
+  updateRef.set({
+    pr_name: this.state.pr_name,
+    pr_image: this.state.pr_image,
+    pr_price: this.state.pr_price,
+    pr_section: this.state.pr_section,
+    pr_id: this.state.pr_id,
+    store_id: this.state.store_id,
+    pr_store_name: this.state.pr_store_name,
+    prod_status: this.state.prod_status,
+    pr_unit: this.state.pr_unit,
+
+  }).then((docRef) => {
+    this.setState({
+      pr_name: '',
+      pr_image: '',
+      pr_section: '',
+      pr_price: '',
+      pr_id: '',
+      store_id: '',
+      pr_store_name: '',
+      prod_status: '',
+      pr_unit: '',
+    });
+    Actions.popTo("black");
+    Toast.show({
+      text: 'Product successfully updated!',
+      position: 'bottom',
+      type: 'success',
+      buttonText: 'Dismiss',
+      duration: 3000
+    });
+  })
+
+   }
+
+
+
+
+
+   OnDelete = () =>{
+
+    Alert.alert(
+      'Alert',
+      'Are you sure you want to delete the product?',
+      [
+
+        {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+        {text: 'OK', onPress: () =>  this.DeleteStudentRecord()},
+      ],
+      { cancelable: false }
+    )
+}
+
+
+ DeleteStudentRecord() {
+  const deleterecord = firebase.firestore().collection('products').doc(this.state.pr_id).delete().then(( res) => {
+   console.log('Product Successfully Deleted')
+   Actions.popTo("black");
+  })
+
+   }
+
+render(){
+  return (
+    <View style={styles.MainContainer}>
+
+    <Text style={{fontSize: 20, textAlign: 'center', marginBottom: 7}}> Edit Product</Text>
+
+    <TextInput
+
+      placeholder="Product Name"
+
+      value={this.state.pr_name}
+
+      onChangeText={ TextInputValue => this.setState({ pr_name : TextInputValue }) }
+
+      underlineColorAndroid='transparent'
+
+      style={styles.TextInputStyleClass}
+    />
+
+   <TextInput
+
+      placeholder="Price"
+
+      value={this.state.pr_price}
+
+      onChangeText={ TextInputValue => this.setState({ pr_price : TextInputValue }) }
+
+      underlineColorAndroid='transparent'
+
+      style={styles.TextInputStyleClass}
+    />
+
+   <TextInput
+
+      placeholder="Section"
+      editable={false}
+      value={this.state.pr_section}
+
+      onChangeText={ TextInputValue => this.setState({ pr_section : TextInputValue }) }
+
+      underlineColorAndroid='transparent'
+
+      style={styles.TextInputStyleClass}
+    />
+<TextInput
+
+      placeholder="Unit"
+      editable={false}
+      value={this.state.pr_unit}
+
+      onChangeText={ TextInputValue => this.setState({ pr_unit : TextInputValue }) }
+
+      underlineColorAndroid='transparent'
+
+      style={styles.TextInputStyleClass}
+    />
+    <TextInput
+
+      placeholder="Image"
+
+      value={this.state.pr_image}
+
+      onChangeText={ TextInputValue => this.setState({ pr_image : TextInputValue }) }
+
+      underlineColorAndroid='transparent'
+
+      style={styles.TextInputStyleClass}
+    />
+
+
+    <TextInput
+
+placeholder="Status"
+
+value={this.state.prod_status}
+
+onChangeText={ TextInputValue => this.setState({ prod_status : TextInputValue }) }
+
+underlineColorAndroid='transparent'
+
+style={styles.TextInputStyleClass}
+/>
+   <TouchableOpacity activeOpacity = { .4 } style={styles.TouchableOpacityStyle} onPress={this.UpdateRecord} >
+
+      <Text style={styles.TextStyle}> UPDATE STUDENT RECORD </Text>
+
+   </TouchableOpacity>
+
+   <TouchableOpacity activeOpacity = { .4 } style={styles.TouchableOpacityStyle} onPress={this.OnDelete} >
+
+      <Text style={styles.TextStyle}> DELETE CURRENT RECORD </Text>
+
+   </TouchableOpacity>
+
+
+</View>
+
+);
+}
+
+}
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#ffdf00',
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+    color: '#ffffff',
+  },
+
+    MainContainer :{
+
+      alignItems: 'center',
+      flex:1,
+      paddingTop: 30,
+      backgroundColor: '#fff'
+
+    },
+
+    MainContainer_For_Show_StudentList_Activity :{
+
+      flex:1,
+      paddingTop: (Platform.OS == 'ios') ? 20 : 0,
+      marginLeft: 5,
+      marginRight: 5
+
+      },
+
+    TextInputStyleClass: {
+
+    textAlign: 'center',
+    width: '90%',
+    marginBottom: 7,
+    height: 40,
+    borderWidth: 1,
+    borderColor: '#FF5722',
+    borderRadius: 5 ,
+
+    },
+
+    TouchableOpacityStyle: {
+
+      paddingTop:10,
+      paddingBottom:10,
+      borderRadius:5,
+      marginBottom:7,
+      width: '90%',
+      backgroundColor: '#00BCD4'
+
+    },
+
+    TextStyle:{
+      color:'#fff',
+      textAlign:'center',
+    },
+
+    rowViewContainer: {
+      fontSize: 20,
+      paddingRight: 10,
+      paddingTop: 10,
+      paddingBottom: 10,
+    }
+
+
+});
